@@ -1,0 +1,92 @@
+  /*
+
+
+   ///// Old filling
+   //        groups.forEach { group ->
+//
+//            val groupModel = GroupModel({ group ->
+//                if (singleExpandedItemMode) adapterModelsCache.forEach { if (it.isExpanded) onItemClick(it) }
+//                onItemClick(group)
+//            })
+//            val regionsList = mutableListOf<ViewAllAdapterModel>()
+//
+//            groupModel.subItems = regionsList
+//            groupModel.viewAllDAO = group
+//
+//            adapterModelsCache.add(groupModel)
+//
+//            group.subItems?.forEach { region ->
+//
+//                val regionModel = RegionModel(this::onItemClick)
+//                val branchesList = mutableListOf<ViewAllAdapterModel>()
+//
+//                regionModel.subItems = branchesList
+//                regionModel.viewAllDAO = region
+//
+//                regionsList.add(regionModel)
+//
+//                region.subItems?.forEach { branch ->
+//
+//                    val branchModel = BranchModel(this::onItemClick)
+//                    val communitiesList = mutableListOf<ViewAllAdapterModel>()
+//
+//                    branchModel.subItems = communitiesList
+//                    branchModel.viewAllDAO = branch
+//
+//                    branchesList.add(branchModel)
+//
+//                    branch.subItems?.forEach { community ->
+//
+//                        val communitiesModel = CommunityModel(this::onItemClick)
+//
+//                        communitiesModel.subItems = mutableListOf()
+//                        communitiesModel.viewAllDAO = community
+//
+//                        communitiesList.add(communitiesModel)
+//                    }
+//                }
+//            }
+//        }
+
+    fun bind() {
+        adapterModelsCache.forEach { group ->
+            addModel(group)
+            Show Hide
+            group.subItems?.forEach { region ->
+                addModel(region)
+                region.subItems?.forEach { branch ->
+                    addModel(branch)
+                    branch.subItems?.forEach { community ->
+                        addModel(community)
+                    }
+                }
+            }
+            group.isExpanded = false
+            hideAllItems2(group.subItems!!)
+        }
+    }
+
+    override fun onItemClick(item: ViewAllAdapterModel) {
+        Log.d("item_click_deb", "IsExpanded : ".plus(item.isExpanded).plus(" Name : ").plus(item.viewAllDAO?.name))
+        if (item.isExpanded) {
+            hideAllItems2(item.subItems!!)
+        } else {
+            showAllItems2(item.subItems!!)
+        }
+        item.isExpanded = !item.isExpanded
+        notifyDataSetChanged()
+        listener.invoke()
+    }
+
+    private fun hideAllItems2(list: Collection<ViewAllAdapterModel>) {
+        hideModels(list)
+        list.forEach {
+            it.isExpanded = false
+            hideAllItems2(it.subItems!!)
+        }
+    }
+
+    private fun showAllItems2(list: Collection<ViewAllAdapterModel>) {
+        showModels(list)
+    }
+     */
